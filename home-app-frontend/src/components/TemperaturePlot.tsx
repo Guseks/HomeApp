@@ -1,4 +1,4 @@
-import React from "react";
+//import React from "react";
 
 // Define an interface for the temperature data structure
 interface TemperatureData {
