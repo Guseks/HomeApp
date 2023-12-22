@@ -27,15 +27,7 @@ const TemperaturePlot = ({ temperatureData }: TemperaturePlotProps) => {
   
   
   console.log(sensordata);
-  /*
-  {temperatureData.map((element, index) => (
-    <li key={index}>
-      <h3>Sensor {index}</h3>
-      Date: {element.date}, Temperatures:{" "}
-      {element.temperature_readings.join(", ")}
-    </li>
-  ))}
-  */
+  
 
   return (
     <div>
