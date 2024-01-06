@@ -2,3 +2,5 @@ node_modules
 home-app-frontend/node_modules
 backend/TempMeas/*.csv
 backend/TempMeas/__pycache__/
+backend/*.csv
+*.csv

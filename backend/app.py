@@ -2,10 +2,12 @@ from flask import Flask, jsonify
 from datetime import datetime, timedelta
 import random
 from flask_cors import CORS 
-
+from TempMeas.readTemp_rollingWindow import timeWindow, start_measuring, temperature_lock 
+import threading
 
 app = Flask(__name__)
 CORS(app)
+
 
 # Generate test data for 24 hours
 def generate_test_data():
@@ -27,9 +29,16 @@ def generate_test_data():
 # Route to get the generated test data
 @app.route('/temperature_data', methods=['GET'])
 def get_temperature_data():
+    #print("test")
     # Generate test data
-    test_data = generate_test_data()
-    return jsonify(test_data)
+    # test_data = generate_test_data()
+    with temperature_lock:
+        latest_values = list(timeWindow)
+    return jsonify(latest_values)
 
 if __name__ == '__main__':
+    measurement_thread = threading.Thread(target=start_measuring)
+    measurement_thread.daemon = True
+    measurement_thread.start()
+
     app.run(debug=True)

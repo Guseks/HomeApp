@@ -4,13 +4,19 @@ import time                                                # import time module
 import datetime
 import collections
 import csv
+import threading
+import sys
+sys.path.append('/home/gustaf/work/HomeApp/backend/TempMeas')
 from RepeatedTimer import RepeatedTimer
+
+#print(sys.path)
 
 os.system('modprobe w1-gpio')                              # load one wire communication device kernel modules
 os.system('modprobe w1-therm')
 base_dir = '/sys/bus/w1/devices/'                          # point to the address
 device_folders = glob.glob(base_dir + '28*')                # find devices with address starting from 28*
 timeWindow = collections.deque(maxlen=6)                  # Time window to always contain measurement for 24 h
+temperature_lock = threading.Lock()
 
 def read_temp_raw(sensor):
    f = open(device_folders[sensor] + '/w1_slave', 'r')
@@ -42,8 +48,10 @@ def new_measurement():
       item = []
       item.append(meas_time.strftime("%c"))
       item.extend(temp_readings)
-      print(item)
-      timeWindow.append(item)
+      #print(item)
+      with temperature_lock:
+         timeWindow.append(item)
+      
       writer.writerow(item)
 
 # Max values of outside, compartment, radiator temp, frequency?
@@ -52,7 +60,7 @@ def new_measurement():
 def get_timeWindowData():
     print (timeWindow)
 
-def main():
+def start_measuring():
    start_time = datetime.datetime.now()
 
    # The time interval must be longer than the actual time it takes to read the sensors, i.e. 1 second
@@ -68,6 +76,6 @@ def main():
       rt.stop() # better in a try/finally block to make sure the program ends
 
 
-if __name__ == "__main__":
-	main()
+#if __name__ == "__main__":
+#	main()
 

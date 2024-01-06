@@ -1,48 +1,75 @@
 //import React from "react";
-
+import "./temperaturePlot.css"
 // Define an interface for the temperature data structure
 interface TemperatureData {
-  date: string;
-  temperature_readings: number[];
+  Time: String;
+  Temps: String[];
 }
 
 // Define props interface for TemperaturePlot component
 interface TemperaturePlotProps {
-  temperatureData: TemperatureData[];
+  data: TemperatureData[];
 }
 
-const TemperaturePlot = ({ temperatureData }: TemperaturePlotProps) => {
-
-  //Split temperature readings into 5 arrays containing info from each sensor. 
-  // Data is stored in sensordata array. Each index represents a sensor and its values.
-  const sensordata: Number[][] = [];
+const TemperaturePlot = ({ data }: TemperaturePlotProps) => {
+  // Creates arrays containing time and sensorvalues. Separating them to prepare for plotting.
+  // The index in these two arrays match, meaning sensorValues[0] belongs together with timeData[0]
+  const sensorValues: String[][] = [];
+  const timeData = data.map((item) => item.Time);
   for(let i = 0; i < 5; i++){
-    const sensorReadings: Number[] = [];
-    for(let j = 0; j < temperatureData.length; j++){
-      const temperatureReading = temperatureData[j].temperature_readings[i];
+    const sensorReadings: String[] = [];
+    for(let j = 0; j < data.length; j++){
+      const temperatureReading = data[j].Temps[i];
       sensorReadings.push(temperatureReading);
     }
-    sensordata.push(sensorReadings);
+    sensorValues.push(sensorReadings);
   }
-  
-  
-  console.log(sensordata);
+
   
 
   return (
-    <div>
-      <h1>Sensordata</h1>
-      <ul>
+    <div className="container">
+      <div className="tempPlots">
+        <ul>
+          {sensorValues.map((item, index) => (
+            <li key = {index}>
+              <span>{`Sensor ${index+1}: `}</span>
+              {item.join(", ")}
 
-        {sensordata.map((element, index) => (
+            </li>
+          ))}
+
+
+        </ul>
+        <ul className="timeInfo">
+          {timeData.map((item, index) => (
+            <li key = {index}>
+              <span>{`Measurement ${index+1}: `}</span>
+              {item}
+
+            </li>
+          ))}
+
+
+        </ul>
+
+
+
+      </div>
+      <div className="sensordata">
+        <h3>Sensordata</h3>
+        <ul>
+        {data.map((item, index) =>(
           <li key={index}>
-            <h3>Sensor {index+1}</h3>
-            Temperatures:{" "}
-            {element.join(", ")}
+            {`Time: ${item.Time}, Temps: ${item.Temps.join(", ")}`}
           </li>
         ))}
-        
-      </ul>
+
+
+        </ul>
+      </div>
+      
+      
     </div>
   );
 };
