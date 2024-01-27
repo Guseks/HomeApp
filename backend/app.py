@@ -34,7 +34,18 @@ def get_temperature_data():
     # test_data = generate_test_data()
     with temperature_lock:
         latest_values = list(timeWindow)
+
     return jsonify(latest_values)
+
+# Route to get the max/min values
+@app.route('/min_max_temperature_data', methods=['GET'])
+def get_min_max_temperature_data():
+    maxRadOut = max(timeWindow, key=lambda x: x[2])
+    minOutdoorTemp = min(timeWindow, key=lambda x: x[4])    
+    maxOutdoorTemp = max(timeWindow, key=lambda x: x[4])
+    maxVpOut = max(timeWindow, key=lambda x: x[5])
+
+    return jsonify([maxRadOut, minOutdoorTemp, maxOutdoorTemp, maxVpOut])
 
 if __name__ == '__main__':
     measurement_thread = threading.Thread(target=start_measuring)

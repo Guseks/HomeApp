@@ -1,15 +1,30 @@
 //import axios from "axios";
 import { useEffect, useState } from "react";
+<<<<<<< Updated upstream
 import TemperaturePlot from "./components/TemperaturePlot/TemperaturePlot";
 import "./App.css";
+=======
+import TemperaturePlot from "./components/TemperaturePlot";
+import StatPlot from "./components/StatPlot";
+import "./App.css"
+>>>>>>> Stashed changes
 
 interface TemperatureData {
   Time: String;
   Temps: String[];
 }
 
+interface StatData {
+  maxRadOut: String, 
+  minOutdoorTemp: String, 
+  maxOutdoorTemp: String, 
+  maxVpOut: String
+}
+
+
 const App = () => {
   const [temperatureData, setTemperatureData] = useState<TemperatureData[]>([]);
+  const [statData, setStatData] = useState<StatData[]>([]);
 
   // Code for generating test Data used for development.
   useEffect(() => {
@@ -54,8 +69,20 @@ const App = () => {
         const modifiedData: TemperatureData[] = fixData(data);
         setTemperatureData(modifiedData);
       } catch (error) {
-        console.error("Error fetching elevator states: ", error);
+        console.error("Error fetching temperature values : ", error);
       }
+
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/min_max_temperature_data"
+        );
+        const data = response.data;
+        const modifiedData: StatData[] = fixStatData(data);
+        setStatData(modifiedData);
+      } catch (error) {
+        console.error("Error fetching min max values : ", error);
+      }
+
     };
 
     fetchTemperatureData();
@@ -75,6 +102,19 @@ const App = () => {
     return fixedData;
   };
 
+<<<<<<< Updated upstream
+=======
+  const fixStatData = (rawData: Array<String[]>): StatData[] => {
+    const fixedData: StatData[] = rawData.map((item: String[]) => {
+      return {maxRadOut: item[0], minOutdoorTemp: item[1], maxOutdoorTemp: item[2], maxVpOut: item[3]}
+    });
+    return fixedData;
+  }
+
+
+  
+  /*
+>>>>>>> Stashed changes
   return (
     <div className="app">
       <h2 className="app-headline">Temperature Measurement App</h2>
@@ -82,7 +122,19 @@ const App = () => {
         <TemperaturePlot data={temperatureData} />
       </div>
     </div>
+<<<<<<< Updated upstream
   );
+=======
+    
+    <h2>Statistics</h2>
+    <div>
+//      <StatPlot data={statData} />
+    </div>
+   
+    
+  </div>
+ );
+>>>>>>> Stashed changes
 };
 
 export default App;

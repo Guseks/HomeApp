@@ -55,6 +55,7 @@ def new_measurement():
       writer.writerow(item)
 
 # Max values of outside, compartment, radiator temp, frequency?
+      
 # min values of outside, compartment
 
 def get_timeWindowData():
