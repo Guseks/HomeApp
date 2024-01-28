@@ -18,7 +18,7 @@
 
 .tempPlots {
   width: 1470px;
-  height: 400px;
+  height: 600px;
   background-color: white;
   display: flex;
   column-gap: 40px;

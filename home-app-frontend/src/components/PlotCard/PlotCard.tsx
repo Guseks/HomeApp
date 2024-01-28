@@ -1,10 +1,68 @@
-//import React from "react";
 import "./plotCard.css";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
-const PlotCard = () => {
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+interface PlotCardProps {
+  timeData: string[];
+  temperatureData: string[][];
+}
+
+const PlotCard = ({ timeData, temperatureData }: PlotCardProps) => {
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Temperature Data Line Chart",
+      },
+    },
+  };
+
+  const colors = [
+    "rgb(0, 100, 0)",
+    "rgb(200, 0, 0)",
+    "rgb(250, 200, 0)",
+    "rgb(200, 0, 200)",
+    "rgb(50, 100, 200)",
+  ];
+
+  const data = {
+    labels: timeData, // Assuming timeData is an array of hours, minutes, and seconds
+    datasets: temperatureData.map((sensor, index) => ({
+      label: `Sensor ${index + 1}`,
+      data: sensor,
+      borderColor: colors[index],
+      backgroundColor: colors[index],
+    })),
+  };
+  //
   return (
     <>
-      <div className="plot-card"></div>
+      <div className="plot-card">
+        <Line options={options} data={data} />
+      </div>
     </>
   );
 };

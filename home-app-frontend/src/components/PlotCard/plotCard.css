@@ -1,5 +1,6 @@
 .plot-card {
   border: 2px solid black;
-  width: 450px;
-  height: 350px;
+  width: 1050px;
+  height: 500px;
+  padding: 30px;
 }

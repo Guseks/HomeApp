@@ -31,13 +31,11 @@ const TemperaturePlot = ({ data }: TemperaturePlotProps) => {
   };
 
   prepareSensorValues();
-
+  //<PlotCard timeData={timeData} temperatureData={sensorValues} />
   return (
     <div className="container">
       <div className="tempPlots">
-        <PlotCard />
-        <PlotCard />
-        <PlotCard />
+        <PlotCard timeData={timeData} temperatureData={sensorValues} />
       </div>
       <div className="tempData">
         <div className="sortedData">
