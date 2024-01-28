@@ -32,10 +32,29 @@ const PlotCard = ({ timeData, temperatureData }: PlotCardProps) => {
     plugins: {
       legend: {
         position: "top" as const,
+        labels: {
+          color: "black",
+          font: {
+            size: 14,
+            weight: 600,
+          },
+        },
       },
       title: {
         display: true,
         text: "Temperature Data Line Chart",
+        color: "black",
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: "black",
+          font: {
+            size: 12,
+            weight: 600,
+          },
+        },
       },
     },
   };
