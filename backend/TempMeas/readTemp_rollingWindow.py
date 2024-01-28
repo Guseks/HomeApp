@@ -51,7 +51,6 @@ def new_measurement():
       #print(item)
       with temperature_lock:
          timeWindow.append(item)
-      
       writer.writerow(item)
 
 # Max values of outside, compartment, radiator temp, frequency?
@@ -77,6 +76,6 @@ def start_measuring():
       rt.stop() # better in a try/finally block to make sure the program ends
 
 
-#if __name__ == "__main__":
-#	main()
+if __name__ == "__main__":
+  start_measuring()
 

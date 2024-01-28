@@ -45,6 +45,8 @@ def get_min_max_temperature_data():
     maxOutdoorTemp = max(timeWindow, key=lambda x: x[4])
     maxVpOut = max(timeWindow, key=lambda x: x[5])
 
+    #print(maxRadOut)
+
     return jsonify([maxRadOut, minOutdoorTemp, maxOutdoorTemp, maxVpOut])
 
 if __name__ == '__main__':
