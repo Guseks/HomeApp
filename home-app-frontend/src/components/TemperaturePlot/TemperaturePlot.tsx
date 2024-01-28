@@ -1,10 +1,11 @@
 //import React from "react";
 import "./temperaturePlot.css";
 import PlotCard from "../PlotCard/PlotCard";
+
 // Define an interface for the temperature data structure
 interface TemperatureData {
-  Time: String;
-  Temps: String[];
+  Time: string;
+  Temps: string[];
 }
 
 // Define props interface for TemperaturePlot component
@@ -15,16 +16,21 @@ interface TemperaturePlotProps {
 const TemperaturePlot = ({ data }: TemperaturePlotProps) => {
   // Creates arrays containing time and sensorvalues. Separating them to prepare for plotting.
   // The index in these two arrays match, meaning sensorValues[0] belongs together with timeData[0]
-  const sensorValues: String[][] = [];
+  const sensorValues: string[][] = [];
   const timeData = data.map((item) => item.Time);
-  for (let i = 0; i < 5; i++) {
-    const sensorReadings: String[] = [];
-    for (let j = 0; j < data.length; j++) {
-      const temperatureReading = data[j].Temps[i];
-      sensorReadings.push(temperatureReading);
+
+  const prepareSensorValues = () => {
+    for (let i = 0; i < 5; i++) {
+      const sensorReadings: string[] = [];
+      for (let j = 0; j < data.length; j++) {
+        const temperatureReading = data[j].Temps[i];
+        sensorReadings.push(temperatureReading);
+      }
+      sensorValues.push(sensorReadings);
     }
-    sensorValues.push(sensorReadings);
-  }
+  };
+
+  prepareSensorValues();
 
   return (
     <div className="container">

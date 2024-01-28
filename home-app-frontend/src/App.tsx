@@ -1,27 +1,27 @@
-import axios from "axios";
+//import axios from "axios";
 import { useEffect, useState } from "react";
 import TemperaturePlot from "./components/TemperaturePlot/TemperaturePlot";
 import "./App.css";
 
 interface TemperatureData {
-  Time: String;
-  Temps: String[];
+  Time: string;
+  Temps: string[];
 }
-
+/*
 interface StatData {
-  maxRadOut: String;
-  minOutdoorTemp: String;
-  maxOutdoorTemp: String;
-  maxVpOut: String;
+  maxRadOut: string;
+  minOutdoorTemp: string;
+  maxOutdoorTemp: string;
+  maxVpOut: string;
 }
+*/
 
 const App = () => {
   const [temperatureData, setTemperatureData] = useState<TemperatureData[]>([]);
-  const [statData, setStatData] = useState<StatData[]>([]);
+  //const [statData, setStatData] = useState<StatData[]>([]);
 
   // Code for generating test Data used for development.
 
-  /*
   useEffect(() => {
     generateTestData();
   }, []);
@@ -51,9 +51,9 @@ const App = () => {
     }
     setTemperatureData(fixData(testData));
   };
-*/
-  // Code used to fetch data from Backend. Uncomment when Ready
 
+  // Code used to fetch data from Backend. Uncomment when Ready
+  /*
   useEffect(() => {
     const fetchTemperatureData = async () => {
       try {
@@ -90,9 +90,9 @@ const App = () => {
       fetchStatData();
     }, 5000);
   }, []);
-
-  const fixData = (rawData: Array<String[]>): TemperatureData[] => {
-    const fixedData: TemperatureData[] = rawData.map((item: String[]) => {
+  */
+  const fixData = (rawData: Array<string[]>): TemperatureData[] => {
+    const fixedData: TemperatureData[] = rawData.map((item: string[]) => {
       const time = item[0];
       const temps = item.slice(1);
       return { Time: time, Temps: temps };
