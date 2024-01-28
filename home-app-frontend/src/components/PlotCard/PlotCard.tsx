@@ -44,6 +44,10 @@ const PlotCard = ({ timeData, temperatureData }: PlotCardProps) => {
         display: true,
         text: "Temperature Data Line Chart",
         color: "black",
+        font: {
+          size: 24,
+          weight: 700,
+        },
       },
     },
     scales: {
