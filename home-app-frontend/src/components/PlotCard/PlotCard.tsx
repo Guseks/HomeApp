@@ -60,6 +60,15 @@ const PlotCard = ({ timeData, temperatureData }: PlotCardProps) => {
           },
         },
       },
+      y: {
+        ticks: {
+          color: "black",
+          font: {
+            size: 13,
+            weight: 600,
+          },
+        },
+      },
     },
   };
 
