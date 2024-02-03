@@ -6,7 +6,7 @@ import collections
 import csv
 import threading
 import sys
-sys.path.append('/home/gustaf/work/HomeApp/backend/TempMeas')
+sys.path.append('/home/hakek/work/HomeApp/backend/TempMeas')
 from RepeatedTimer import RepeatedTimer
 
 #print(sys.path)

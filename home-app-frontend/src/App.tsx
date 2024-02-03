@@ -1,4 +1,4 @@
-//import axios from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import TemperaturePlot from "./components/TemperaturePlot/TemperaturePlot";
 import "./App.css";
@@ -21,7 +21,7 @@ const App = () => {
   //const [statData, setStatData] = useState<StatData[]>([]);
 
   // Code for generating test Data used for development.
-
+/*
   useEffect(() => {
     generateTestData();
   }, []);
@@ -51,9 +51,8 @@ const App = () => {
     }
     setTemperatureData(fixData(testData));
   };
-
+*/
   // Code used to fetch data from Backend. Uncomment when Ready
-  /*
   useEffect(() => {
     const fetchTemperatureData = async () => {
       try {
@@ -83,14 +82,14 @@ const App = () => {
     };
 
     fetchTemperatureData();
-    fetchStatData();
+//    fetchStatData();
 
     setInterval(() => {
       fetchTemperatureData();
-      fetchStatData();
+//      fetchStatData();
     }, 5000);
   }, []);
-  */
+
   const fixData = (rawData: Array<string[]>): TemperatureData[] => {
     const fixedData: TemperatureData[] = rawData.map((item: string[]) => {
       const time = item[0];
