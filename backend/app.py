@@ -18,7 +18,7 @@ else:
 app = Flask(__name__)
 CORS(app)
 
-# Generate test data for 24 hours
+# Read test data from file
 def generate_test_data():
 
     # Replace 'your_file.csv' with the path to your actual CSV file
@@ -53,14 +53,14 @@ def get_temperature_data():
 # Route to get the max/min values
 @app.route('/min_max_temperature_data', methods=['GET'])
 def get_min_max_temperature_data():
-    maxRadOut = max(timeWindow, key=lambda x: x[2])
-    minOutdoorTemp = min(timeWindow, key=lambda x: x[4])    
-    maxOutdoorTemp = max(timeWindow, key=lambda x: x[4])
-    maxVpOut = max(timeWindow, key=lambda x: x[5])
+    maxRadiatorOut = max(list[2] for list in timeWindow if len(list) > 1)
+    minOutdoorTemp = min(list[4] for list in timeWindow if len(list) > 1)
+    maxOutdoorTemp = max(list[4] for list in timeWindow if len(list) > 1)
+    maxVpOut = max(list[5] for list in timeWindow if len(list) > 1)
 
     #print(maxRadOut)
 
-    return jsonify([maxRadOut, minOutdoorTemp, maxOutdoorTemp, maxVpOut])
+    return jsonify([maxRadiatorOut, minOutdoorTemp, maxOutdoorTemp, maxVpOut])
 
 if __name__ == '__main__':
     # Generate test data
