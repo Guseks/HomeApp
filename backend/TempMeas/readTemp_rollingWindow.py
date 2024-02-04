@@ -11,16 +11,19 @@ from RepeatedTimer import RepeatedTimer
 
 #print(sys.path)
 
-os.system('modprobe w1-gpio')                              # load one wire communication device kernel modules
+os.system('modprobe w1-gpio')                               # load one wire communication device kernel modules
 os.system('modprobe w1-therm')
-base_dir = '/sys/bus/w1/devices/'                          # point to the address
+base_dir = '/sys/bus/w1/devices/'                           # point to the address
 device_folders = glob.glob(base_dir + '28*')                # find devices with address starting from 28*
-timeWindow = collections.deque(maxlen=6)                  # Time window to always contain measurement for 24 h
+SensorReadInterval = 10                                     # Read interval of sensors
+timeWindowsLength = int(3600/SensorReadInterval*24)
+timeWindow = collections.deque(maxlen=timeWindowsLength)    # Time window to always contain measurement for 24 h
 temperature_lock = threading.Lock()
+stand_alone = 0;                                            # Default is that measurement is part of web application
 
 def read_temp_raw(sensor):
    f = open(device_folders[sensor] + '/w1_slave', 'r')
-   lines = f.readlines()                                   # read the device details
+   lines = f.readlines()                                    # read the device details
    f.close()
    return lines
 
@@ -40,22 +43,20 @@ def read_temp():
    return list_of_temperatures
 
 def new_measurement():
-   with open('./temperature_readings.csv', 'a') as csvfile:
-      writer = csv.writer(csvfile)
+   temp_readings = read_temp()
+   meas_time = datetime.datetime.now()
+   item = []
+   item.append(meas_time.strftime("%c"))
+   item.extend(temp_readings)
 
-      temp_readings = read_temp()
-      meas_time = datetime.datetime.now()
-      item = []
-      item.append(meas_time.strftime("%c"))
-      item.extend(temp_readings)
-      #print(item)
-      with temperature_lock:
-         timeWindow.append(item)
-      writer.writerow(item)
+   with temperature_lock:
+      timeWindow.append(item)
 
-# Max values of outside, compartment, radiator temp, frequency?
-      
-# min values of outside, compartment
+   if stand_alone==1:
+      with open('./temperature_readings.csv', 'a') as csvfile:
+         writer = csv.writer(csvfile)
+         writer.writerow(item)
+         print(item)
 
 def get_timeWindowData():
     print (timeWindow)
@@ -64,18 +65,17 @@ def start_measuring():
    start_time = datetime.datetime.now()
 
    # The time interval must be longer than the actual time it takes to read the sensors, i.e. 1 second
-   rt = RepeatedTimer(1, 10, new_measurement) # it auto-starts, no need of rt.start()
-#      rt = RepeatedTimer(1, 1, new_measurement, writer) # it auto-starts, no need of rt.start()
-#      rt = RepeatedTimer(1, 1, hello, "test") # it auto-starts, no need of rt.start()
+   rt = RepeatedTimer(1, SensorReadInterval, new_measurement) # it auto-starts, no need of rt.start()
+
    try:
       while 1:
          time.sleep(1)
-#         get_timeWindowData()
 
    finally:
       rt.stop() # better in a try/finally block to make sure the program ends
 
 
 if __name__ == "__main__":
+  stand_alone=1
   start_measuring()
 
