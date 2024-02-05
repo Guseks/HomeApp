@@ -71,4 +71,4 @@ if __name__ == '__main__':
         measurement_thread.daemon = True
         measurement_thread.start()
 
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port = 5000, debug=True)

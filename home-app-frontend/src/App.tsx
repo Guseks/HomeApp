@@ -18,40 +18,7 @@ interface StatData {
 
 const App = () => {
   const [temperatureData, setTemperatureData] = useState<TemperatureData[]>([]);
-  //const [statData, setStatData] = useState<StatData[]>([]);
 
-  // Code for generating test Data used for development.
-/*
-  useEffect(() => {
-    generateTestData();
-  }, []);
-
-  const getCurrentDateTime = (index: number) => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const day = String(now.getDate()).padStart(2, "0");
-    const hours = String((now.getHours() + index) % 24).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const seconds = String(now.getSeconds()).padStart(2, "0");
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  };
-
-  const generateTestData = () => {
-    let testData: string[][] = [];
-    for (let i = 0; i < 24; i++) {
-      let data: string[] = [];
-      const temperatureReadings: string[] = Array.from({ length: 5 }, () =>
-        (Math.random() * (50 - 15) + 15).toFixed(1)
-      );
-      data.push(getCurrentDateTime(i));
-      data.push(...temperatureReadings);
-      testData = [...testData, data];
-    }
-    setTemperatureData(fixData(testData));
-  };
-*/
   // Code used to fetch data from Backend. Uncomment when Ready
   useEffect(() => {
     const fetchTemperatureData = async () => {
@@ -66,7 +33,7 @@ const App = () => {
         console.error("Error fetching temperature values : ", error);
       }
     };
-
+    /*
     const fetchStatData = async () => {
       try {
         const response = await axios.get(
@@ -80,13 +47,14 @@ const App = () => {
         console.error("Error fetching min max values : ", error);
       }
     };
+    */
 
     fetchTemperatureData();
-//    fetchStatData();
+    //    fetchStatData();
 
     setInterval(() => {
       fetchTemperatureData();
-//      fetchStatData();
+      //      fetchStatData();
     }, 5000);
   }, []);
 

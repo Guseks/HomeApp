@@ -37,7 +37,14 @@ const TemperaturePlot = ({ data }: TemperaturePlotProps) => {
       <div className="tempPlots">
         <PlotCard timeData={timeData} temperatureData={sensorValues} />
       </div>
-      <div className="tempData">
+    </div>
+  );
+};
+
+export default TemperaturePlot;
+
+/*
+<div className="tempData">
         <div className="sortedData">
           <h3>Fixed Sensordata</h3>
           <ul>
@@ -74,8 +81,4 @@ const TemperaturePlot = ({ data }: TemperaturePlotProps) => {
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-export default TemperaturePlot;
+      */
